@@ -5,6 +5,10 @@ import { ArtworkService } from '../artwork.service';
 import { PlayerService, PlayerCmds } from '../player.service';
 import { Media } from '../media';
 
+import { SpotifyControl } from '../spotifyControl';
+
+
+
 @Component({
   selector: 'app-player',
   templateUrl: './player.page.html',
@@ -15,12 +19,16 @@ export class PlayerPage implements OnInit {
   media: Media;
   cover = '';
   playing = true;
+  devices;
+  spotifyEnabled = false;
+  enabledSpotifyDevice = "";
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private artworkService: ArtworkService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private spotifyControl: SpotifyControl
   ) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -29,10 +37,40 @@ export class PlayerPage implements OnInit {
     });
   }
 
+  transferPlayback(deviceID){
+    this.spotifyControl.setDevice(deviceID);
+  }
+
   ngOnInit() {
+
     this.artworkService.getArtwork(this.media).subscribe(url => {
       this.cover = url;
     });
+
+      /*get spotify config and show spotify control if enabled*/
+    this.spotifyControl.getConfig().subscribe(config => {
+
+      this.spotifyEnabled = (/true/i).test(config.enabled);
+
+      /*get spotify config and show spotify control if enabled*/
+      if (this.spotifyEnabled){
+        this.spotifyControl.getDevices().subscribe(
+          (response) =>{
+            this.devices = response;
+              /*search for active device and store it*/
+            for (let item of response){
+              if(item.is_active)
+                console.log("here");
+                  this.enabledSpotifyDevice = item.name;
+            }
+          }
+        );
+      }
+    });
+
+
+
+
   }
 
   ionViewWillEnter() {

@@ -56,6 +56,20 @@
                             </ion-button>
                         </ion-col>
                     </ion-row>
+
+                    <div *ngIf="spotifyEnabled">
+                      <ion-row class="spotify-controls">
+                          <ion-col size="4" class="vertical-align-content">
+                            Spotify Device:
+                          </ion-col>
+                          <ion-col size="8" class="ion-text-center">
+                              <ion-select (ionChange)="transferPlayback($event.detail.value)" [(ngModel)]="devices" [selectedText]="enabledSpotifyDevice">
+                                <ion-select-option *ngFor="let opt of devices" value="{{opt.id}}">{{opt.name}}</ion-select-option>
+                              </ion-select>
+                          </ion-col>
+                         </ion-row>
+                      </div>
+
                 </ion-grid>
             </ion-col>
         </ion-row>
