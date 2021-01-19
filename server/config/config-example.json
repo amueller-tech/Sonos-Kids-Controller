@@ -12,7 +12,7 @@
         "clientSecret": "your_secret"
     },
     "spotify-connect": {
-        "enabled": "true",
+        "enabled": "false",
         "server": "127.0.0.1",
         "port": "5005"
     }
