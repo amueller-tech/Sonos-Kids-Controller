@@ -21,7 +21,8 @@ export class PlayerPage implements OnInit {
   playing = true;
   devices;
   spotifyEnabled = false;
-  enabledSpotifyDevice = "";
+  enabledSpotifyDeviceID = "";
+  enabledSpotifyDeviceName = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -37,10 +38,6 @@ export class PlayerPage implements OnInit {
     });
   }
 
-  transferPlayback(deviceID){
-    this.spotifyControl.setDevice(deviceID);
-  }
-
   ngOnInit() {
 
     this.artworkService.getArtwork(this.media).subscribe(url => {
@@ -52,25 +49,34 @@ export class PlayerPage implements OnInit {
 
       this.spotifyEnabled = (/true/i).test(config.enabled);
 
-      /*get spotify config and show spotify control if enabled*/
       if (this.spotifyEnabled){
+
+        /*get spotify connect devices*/
         this.spotifyControl.getDevices().subscribe(
           (response) =>{
             this.devices = response;
               /*search for active device and store it*/
             for (let item of response){
-              if(item.is_active)
-                console.log("here");
-                  this.enabledSpotifyDevice = item.name;
+              if(item.is_active){
+                this.enabledSpotifyDeviceID = item.id;
+                this.enabledSpotifyDeviceName  = item.name;
+              }
+
+            }
+              /*if no active device has been found, set first one to active and transfer playback*/
+            if (this.enabledSpotifyDeviceID == ""){
+                this.enabledSpotifyDeviceID = response[0].id
+                this.enabledSpotifyDeviceName = response[0].name
+                this.spotifyControl.setDevice(this.enabledSpotifyDeviceID);
             }
           }
         );
       }
     });
+  }
 
-
-
-
+  transferPlayback(deviceID){
+     this.spotifyControl.setDevice(deviceID);
   }
 
   ionViewWillEnter() {

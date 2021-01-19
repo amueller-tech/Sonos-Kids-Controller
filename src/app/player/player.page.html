@@ -63,7 +63,7 @@
                             Spotify Device:
                           </ion-col>
                           <ion-col size="8" class="ion-text-center">
-                              <ion-select (ionChange)="transferPlayback($event.detail.value)" [(ngModel)]="devices" [selectedText]="enabledSpotifyDevice">
+                              <ion-select  [(ngModel)]="enabledSpotifyDeviceID" (ngModelChange)="transferPlayback($event)">
                                 <ion-select-option *ngFor="let opt of devices" value="{{opt.id}}">{{opt.name}}</ion-select-option>
                               </ion-select>
                           </ion-col>
