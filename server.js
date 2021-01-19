@@ -77,6 +77,11 @@ app.get('/api/sonos', (req, res) => {
     res.status(200).send(config['node-sonos-http-api']);
 });
 
+app.get('/api/spotifyConnect', (req, res) => {
+    // Send server address and port of the node-sonos-http-api instance to the client
+    res.status(200).send(config['spotify-connect']);
+});
+
 // Catch all other routes and return the index file from Ionic app
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'www/index.html'));

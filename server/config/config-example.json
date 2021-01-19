@@ -10,5 +10,10 @@
     "spotify": {
         "clientId": "your_id",
         "clientSecret": "your_secret"
+    },
+    "spotify-connect": {
+        "enabled": "false",
+        "server": "127.0.0.1",
+        "port": "5005"
     }
 }
