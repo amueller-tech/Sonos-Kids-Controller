@@ -88,13 +88,24 @@ Now the user interface should appear
         "rooms": [
             "Livingroom",
             "Kitchen"
-        ]
+        ],
+        "tts": {
+            "enabled": true,
+            "language": "de-de",
+            "volume": "40"
+        }
     },
     "spotify": {
         "clientId": "your_id",
         "clientSecret": "your_secret"
+    },
+    "spotify-connect": {
+        "enabled": "false",
+        "server": "127.0.0.1",
+        "port": "5005"
     }
 }
+
 ```
 Point the node-sonos-http-api section to the adress and the port where the service is running.
 The rooms are the Sonos room names that you want to be allowed as target.
@@ -103,6 +114,8 @@ Room selection isn't implemented yet, so only the first room will be used at the
 
 The spotify section is only needed when you want to use Spotify Premium as source.
 The id and the secret are the same values as entered in the node-sonos-http-api configuration as described [here.](https://github.com/Thyraz/node-sonos-http-api#note-for-spotify-users)
+
+If you want to use spotify connect as an output, simply set "enabled" to "true" and set the server and port to the exact same values as for the node-sonos-http-api
 
 ## Adding Content
 There's a hidden button in the root view on the right side of the top navigation bar.
