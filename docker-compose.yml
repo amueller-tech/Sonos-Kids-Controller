@@ -1,0 +1,18 @@
+version: '2.1'
+
+networks:
+  traefik-net:
+    external: true
+
+services:
+
+  spotifycontrol:
+    build: .
+    restart: unless-stopped
+    networks:
+     - traefik-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.touchscreen.entrypoints=http"
+      - "traefik.http.routers.touchscreen.rule= Host(`phonietouch.pi1.local`)"
+      - "traefik.http.services.touchscreen.loadbalancer.server.port=8200"
